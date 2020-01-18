@@ -31,13 +31,13 @@
 
 # data segment
 .data
-	matrix1:	.word 1, 2, 3 
+	matrix1:	.word 3, 2, 3 
 			.word 4, 5, 6
 			.word 7, 8, 9
 	
 	matrix2:	.word 3, 4, 3 
 			.word 4, 5, 6
-			.word 7, 8, 9
+			.word 7, 8, 1
 	
 	length:		.word 3
 	space:	.asciiz " "
