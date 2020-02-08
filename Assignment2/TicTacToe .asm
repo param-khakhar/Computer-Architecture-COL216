@@ -40,6 +40,8 @@
 	intro4:	.asciiz "3 4 5\n"
 	intro5: .asciiz	"6 7 8\n"
 
+	cross:		.asciiz "X"
+	dash:		.asciiz "-"
 	player1input:	.asciiz "Player 1's turn:"
 	player2input:	.asciiz "Player 2's turn:"
 	space:		.asciiz " "
@@ -82,6 +84,11 @@ main:
 	li	$t2,0		
 	la	$t5,array
 
+display1:
+	li	$t6,0		# Initializing nested loop parameters. Outer loop i = 0
+	la	$t7,array	# Address of the array.
+	jal	outer1
+
 player1:
 
 	la	$a0,player1input	# Prompt for player1 to input.	
@@ -103,7 +110,8 @@ player1:
 	
 	add	$t0,$t0,1	# Update the total number of turns.
 	jal	decision1	# Check whether player 1 has won or not.
-	blt	$t0,9,player2	# If total number of turns are less than 9, it is player2's turn.
+
+	blt	$t0,9,display2	# If total number of turns are less than 9, it is player2's turn.
 	j	endGame
 
 invalid1:
@@ -117,6 +125,12 @@ invalid2:
 	li	$v0,4
 	syscall
 	b player2
+
+
+display2:
+	li	$t6,0		# Initializing nested loop parameters. Outer loop i = 0
+	la	$t7,array	# Address of the array.
+	jal	outer2
 
 player2:
 
@@ -140,7 +154,7 @@ player2:
 	
 	add	$t0,$t0,1	# Update the total number of turns.
 	jal	decision2	# Check whether player 2 has won or not.
-	blt	$t0,9,player1	# If total number of turns are less than 9, it is player 1's turn.
+	blt	$t0,9,display1	# If total number of turns are less than 9, it is player 1's turn.
 	j	endGame
 
 endGame:
@@ -185,14 +199,60 @@ outerLoop:
 	add	$t0,$t0,1	# Incrementing j
 	blt	$t0,3,outerLoop	
 	j	endLoop		# End the outer loop if the outer index becomes 3
+
+outer1:
+	
+	li	$t1,0		# Inner loop variable
+	jal	innerLoop	# Jumps to the inner loop.
+
+	la	$a0,newline	# New line for printing next row	
+	li	$v0,4
+	syscall		
+
+	add	$t6,$t6,1	# Incrementing j
+	blt	$t6,3,outer1	
+	j	player1		# End the outer loop if the outer index becomes 3
+
+outer2:
+	
+	li	$t1,0		# Inner loop variable
+	jal	innerLoop	# Jumps to the inner loop.
+
+	la	$a0,newline	# New line for printing next row	
+	li	$v0,4
+	syscall		
+
+	add	$t6,$t6,1	# Incrementing j
+	blt	$t6,3,outer2	
+	j	player2		# End the outer loop if the outer index becomes 3
+
 	
 innerLoop:
 	
 	lw	$t3,($t7)
-	move	$a0,$t3		
+	beq	$t3,0,printzero
+	beq	$t3,1,printone
+	beq	$t3,2,printtwo
+
+printzero:
+	la	$a0,dash
+	li	$v0,4
+	syscall
+	b	label1
+
+printone:
+	la	$a0,cross
+	li	$v0,4
+	syscall
+	b	label1
+
+printtwo:
+	li	$a0,0
 	li	$v0,1
 	syscall
+	b	label1
 
+label1:
 	la	$a0,space		# New line for printing next row	
 	li	$v0,4
 	syscall
@@ -201,6 +261,7 @@ innerLoop:
 	add	$t1,$t1,1		
 	blt	$t1,3,innerLoop	
 	jr	$ra		# Again resumes from outerloop.
+
 
 decision1:
 	li	$t3,1 	  	#initializes t3 to 1
@@ -232,7 +293,8 @@ decision1:
 	li	$t3,293		
 	beq 	$t8,$t3,endGame
 	li	$t3,85	
-	beq 	$t8,$t3,endGame	
+	beq 	$t8,$t3,endGame
+	
 	li	$t3,58				
 	beq 	$t8,$t3,endGame
 	li	$t3,450	
@@ -245,8 +307,7 @@ decision1:
 	beq 	$t8,$t3,endGame
 	li	$t3,86
 	beq 	$t8,$t3,endGame
-	li 	$t3,11
-	beq 	$t8,$t3,endGame	
+	
 	li	$t3,60
 	beq 	$t8,$t3,endGame
 	li	$t3,452
@@ -257,11 +318,10 @@ decision1:
 	beq 	$t8,$t3,endGame
 	li	$t3,277
 	beq 	$t8,$t3,endGame
+
 	li 	$t3,15
 	beq 	$t8,$t3,endGame	
 	li	$t3,456		
-	beq 	$t8,$t3,endGame
-	li	$t3,81	
 	beq 	$t8,$t3,endGame
 	li	$t3,154
 	beq 	$t8,$t3,endGame
@@ -271,6 +331,7 @@ decision1:
 	beq 	$t8,$t3,endGame
 	li	$t3,92
 	beq 	$t8,$t3,endGame
+
 	li 	$t3,23		
 	beq 	$t8,$t3,endGame	
 	li	$t3,464		
@@ -278,8 +339,6 @@ decision1:
 	li	$t3,89		
 	beq 	$t8,$t3,endGame
 	li	$t3,308		
-	beq 	$t8,$t3,endGame
-	li	$t3,84		
 	beq 	$t8,$t3,endGame
 
 	li 	$t3,39		
@@ -292,7 +351,7 @@ decision1:
 	beq 	$t8,$t3,endGame
 	li	$t3,305		
 	beq 	$t8,$t3,endGame
-	li	$t3,16		
+	li	$t3,168		
 	beq 	$t8,$t3,endGame
 
 	li 	$t3,71		
@@ -316,7 +375,7 @@ decision1:
 	beq 	$t8,$t3,endGame
 	li	$t3,401		
 	beq 	$t8,$t3,endGame
-	li	$t3,204		
+	li	$t3,212		
 	beq 	$t8,$t3,endGame
 
 	li 	$t3,263		
@@ -330,7 +389,6 @@ decision1:
 	li	$t3,340		
 	beq 	$t8,$t3,endGame
 	jr	$ra
-
 
 decision2:
 	li	$t3,1 	  	#initializes t3 to 1
@@ -362,7 +420,8 @@ decision2:
 	li	$t3,293		
 	beq 	$t9,$t3,endGame
 	li	$t3,85	
-	beq 	$t9,$t3,endGame	
+	beq 	$t9,$t3,endGame
+	
 	li	$t3,58				
 	beq 	$t9,$t3,endGame
 	li	$t3,450	
@@ -375,8 +434,7 @@ decision2:
 	beq 	$t9,$t3,endGame
 	li	$t3,86
 	beq 	$t9,$t3,endGame
-	li 	$t3,11
-	beq 	$t9,$t3,endGame	
+	
 	li	$t3,60
 	beq 	$t9,$t3,endGame
 	li	$t3,452
@@ -387,11 +445,10 @@ decision2:
 	beq 	$t9,$t3,endGame
 	li	$t3,277
 	beq 	$t9,$t3,endGame
+
 	li 	$t3,15
 	beq 	$t9,$t3,endGame	
 	li	$t3,456		
-	beq 	$t9,$t3,endGame
-	li	$t3,81	
 	beq 	$t9,$t3,endGame
 	li	$t3,154
 	beq 	$t9,$t3,endGame
@@ -401,6 +458,7 @@ decision2:
 	beq 	$t9,$t3,endGame
 	li	$t3,92
 	beq 	$t9,$t3,endGame
+
 	li 	$t3,23		
 	beq 	$t9,$t3,endGame	
 	li	$t3,464		
@@ -408,8 +466,6 @@ decision2:
 	li	$t3,89		
 	beq 	$t9,$t3,endGame
 	li	$t3,308		
-	beq 	$t9,$t3,endGame
-	li	$t3,84		
 	beq 	$t9,$t3,endGame
 
 	li 	$t3,39		
@@ -422,7 +478,7 @@ decision2:
 	beq 	$t9,$t3,endGame
 	li	$t3,305		
 	beq 	$t9,$t3,endGame
-	li	$t3,16		
+	li	$t3,168		
 	beq 	$t9,$t3,endGame
 
 	li 	$t3,71		
@@ -446,7 +502,7 @@ decision2:
 	beq 	$t9,$t3,endGame
 	li	$t3,401		
 	beq 	$t9,$t3,endGame
-	li	$t3,204		
+	li	$t3,212		
 	beq 	$t9,$t3,endGame
 
 	li 	$t3,263		
