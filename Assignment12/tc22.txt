@@ -1,0 +1,21 @@
+32 <cache size in bytes>
+2  <cache line/block size in bytes>
+4  <Cache associativity>
+4  <T>
+#memory access requests        Read hit for already accessed elements.
+1, R
+2, R
+13, R
+14, R
+15, R
+16, R
+11, R
+12, R
+21, R
+22, R
+3, R
+4, R
+5, R
+6, R
+31, R
+32, R

@@ -1,0 +1,14 @@
+32 <cache size in bytes>
+2  <cache line/block size in bytes>
+4  <Cache associativity>
+4  <T>
+#memory access requests         Write Hit. Followed reading the modified value from the memory.
+1, R
+1, W, 9
+1, R
+3, R
+4, R
+6, R
+5, R
+13, R
+1, R

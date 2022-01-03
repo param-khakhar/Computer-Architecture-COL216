@@ -1,0 +1,10 @@
+JAL 3
+J 4
+J 6
+JAL 2
+BLEZ $t1,8
+BGTZ $t1,10
+ADD $t1,$t1,$t0
+JR $ra
+SUB $t1,$t1,$t0
+JR $ra

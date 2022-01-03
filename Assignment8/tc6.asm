@@ -1,0 +1,16 @@
+ADD $t4,$t0,$t1
+ADD $t6,$t2,$t0 
+JAL 4
+J 15
+ADD $t4,$t0,$t4
+ADD $sp,$t6,$sp
+SW $ra,0($sp)
+JAL 12
+LW $ra,0($sp)
+SUB $sp,$sp,$t6
+JR $ra
+ADD $t4,$t0,$t4
+JR $ra
+ADD $t4,$t0,$t1
+ADD $t4,$t0,$t1
+ADD $t4,$t0,$t1

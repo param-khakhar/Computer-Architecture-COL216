@@ -1,0 +1,3 @@
+**Assignment 7**
+
+In this assignment a C++ program was written in order to interpret the MIPS instructions, and process them. We did this by offline processing as we are storing all the new line separated instructions in a vector of strings and then we are processing the individual instructions as per the format. We've used offline processing in order to carry ut the branching instructions. We have also tested our codes on 5 different test cases which cover all the instructions. During the execution of the instructions, we are printing the instruction address in the memory. After the execution is complete, we are printing the contents of each of the register.

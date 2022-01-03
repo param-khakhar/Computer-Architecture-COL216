@@ -1,0 +1,14 @@
+32 <cache size in bytes>
+2  <cache line/block size in bytes>
+4  <Cache associativity>
+4  <T>
+#memory access requests         Write hits and miss.
+1, W, 9
+2, W, 10
+3, W, 11
+4, W, 12
+5, W, 13
+6, R
+6, W, 14
+7, R
+7, W, 15

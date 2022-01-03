@@ -1,0 +1,14 @@
+32 <cache size in bytes>
+2  <cache line/block size in bytes>
+4  <Cache associativity>
+4  <T>
+#memory access requests     Transfer from High Priority to Low Priority as address not queried for T cycles.
+53, R
+53, R
+33, R
+34, R
+26, R
+12, R
+47, R
+5, R
+5, R
